@@ -1,0 +1,53 @@
+<% layout('layouts/boilerplate') %>
+<div class="row mt-5">
+	<h1 class="text-center">Edit Item</h1>
+	<div class="col-xxl-6 col-md-10 col-12 offset-xxl-3 offset-md-1">
+		<form action="/items/<%= item._id %>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+			<div class="mb-3">
+				<label class="form-label" for="title">Title</label>
+				<input class="form-control" type="text" name="item[title]" id="title" value="<%= item.title %>" required />
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please enter a title.</div>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="category">Category</label>
+				<input class="form-control" type="text" name="item[category]" id="category" value="<%= item.category %>" required />
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please enter a category.</div>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="price">Item Price</label>
+				<div class="input-group">
+					<span class="input-group-text" id="price-label">$</span>
+					<input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="item[price]" value="<%= item.price %>" required />
+					<div class="valid-feedback">Looks good!</div>
+					<div class="invalid-feedback">Please enter a price.</div>
+				</div>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="description">Description</label>
+				<textarea class="form-control" type="text" name="item[description]" id="description" required><%= item.description %></textarea>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please enter some description.</div>
+			</div>
+			<div class="mb-3 custom-file">
+				<label for="image" class="form-label">Add Image</label>
+				<input class="form-control" type="file" id="image" name="image" multiple>
+				<label for="image" class="custom-file-label"></label>
+			</div>
+			<div class="mb-3">
+				<% item.images.forEach((img, i) => { %> 
+					<img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
+					<div class="form-check-inline">
+						<input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
+					</div>
+					<label for="image-<%= i %>">Delete?</label>
+				<% }) %> 
+			</div>
+			<div class="mb-3">
+				<button class="btn btn-info">Update Item</button>
+			</div>
+		</form>
+		<a href="/items/<%= item._id %>">Back to item</a>
+	</div>
+</div>

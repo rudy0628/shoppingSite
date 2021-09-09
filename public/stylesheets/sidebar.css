@@ -1,0 +1,48 @@
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+#offcanvas{
+    background: #555;
+}
+
+.nav-sidebar-link, .offcanvas-title{
+    color: white;
+    border-bottom: 1px solid white;
+}
+
+.nav-sidebar-link:hover{
+    color: #555;
+}
+
+.nav-sidebar-item:hover{
+    background: white;
+}
+
+.sidebar-w{
+    width: 25%;
+}
+
+@media(max-width:992px){
+    .sidebar-w{
+        width: 75%;
+    }
+}

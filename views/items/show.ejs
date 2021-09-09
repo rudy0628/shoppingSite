@@ -1,0 +1,128 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/star.css">
+<div class="row">
+	<div class="col-md-10 col-12 offset-md-1">
+		<div class="card mt-4">
+			<div class="row">
+				<div class="col-lg-6">
+					<div id="itemCarousel" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<% item.images.forEach((img, i) => { %> 
+							<div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+								<img src="<%= img.url %>" class="d-block w-100 my-auto" alt="">
+							</div>
+							<% }) %> 
+						</div>
+						<% if(item.images.length > 1) {%> 
+						<button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+						<% } %> 
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item"><h4><%= item.title %></h4></li>
+						<li class="list-group-item text-muted"><%= item.category %></li>
+						<li class="list-group-item">Seller: <%= item.author.username %></li>
+						<li class="list-group-item"><%= item.description %></li>
+						<li class="list-group-item fs-3">$<%= item.price %></li>
+					</ul>
+
+					<div class="card-body">
+						<% if(currentUser && item.author.equals(currentUser._id)){ %>
+						<a href="/items/<%= item._id %>/edit" class="btn btn-info card-link mt-2">Edit Item</a>
+						<form class="d-inline" action="/items/<%= item._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-danger mt-2" >Delete Item</button>
+						</form>
+						<% } else if(currentUser){%>
+						<form class="d-inline" action="/items/<%= item._id %>/shoppingCart/<%= currentUser._id %>" method="POST" class="needs-validation" novalidate>
+							<select class="form-select" id="amount" name="amount" aria-label="Default select example" >
+								<% for(let i = 1 ; i <= 20 ; i++){ %>
+									<option value="<%= i %>"><%= i %></option>
+								<% } %>  
+							</select>
+							<div class="valid-feedback">Looks good!</div>
+							<div class="invalid-feedback">Please enter a amount.</div>
+							<button class="btn btn-success mt-3">Add into shopping cart</button>
+						</form>
+						<% } %>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<small class="text-muted">Create in <%= item.date.toDateString() %></small>
+			</div>
+		</div>
+	</div>
+	<div class="col-10 offset-1 my-3">
+		<div class="row">
+			<% if(currentUser){ %>
+			<div class="col-lg-6">
+				<form action="/items/<%= item._id %>/reviews" method="POST" class="my-3 needs-validation" novalidate>
+					<h2>Leave a Review</h2>
+					<div class="mt-3">
+						<label for="rating" class="form-label">Rating</label>
+						<fieldset class="starability-grow">
+							<input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+							<input type="radio" id="first-rate1" name="review[rating]" value="1" />
+							<label for="first-rate1" title="Terrible">1 star</label>
+							<input type="radio" id="first-rate2" name="review[rating]" value="2" />
+							<label for="first-rate2" title="Not good">2 stars</label>
+							<input type="radio" id="first-rate3" name="review[rating]" value="3" />
+							<label for="first-rate3" title="Average">3 stars</label>
+							<input type="radio" id="first-rate4" name="review[rating]" value="4" />
+							<label for="first-rate4" title="Very good">4 stars</label>
+							<input type="radio" id="first-rate5" name="review[rating]" value="5" />
+							<label for="first-rate5" title="Amazing">5 stars</label>
+						</fieldset>
+					</div>
+					<div class="mb-3">
+						<label class="form-label" for="body">Review</label>
+						<textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+						<div class="valid-feedback">Looks good!</div>
+						<div class="invalid-feedback">Please enter some description.</div>
+					</div>
+					<button class="btn btn-success">Submit</button>
+				</form>
+			</div>
+			<% } else {%>
+			<div class="col-lg-6">
+				<div class="card shadow p-2 mb-3">
+					<h2 class="text-center">Please login to leave the review!!</h2>
+					<a href="/login" class="btn btn-info">Sign Up Here</a>
+				</div>
+			</div>
+			<% } %>
+			<div class="col-lg-6">
+				<% if(item.reviews && item.reviews.length) {%> 
+					<% for(let review of item.reviews){ %>
+					<div class="card shadow p-3 mb-3">
+						<h4 class="card-subtitle mb-2">
+							<%= review.author === null ? 'user not found' : review.author.username%>
+						</h4>
+						<p class="starability-result" data-rating="<%= review.rating %>"></p>
+						<p>Review: <%= review.body %></p>
+						<% if(review.author !== null) { %> 
+							<% if(currentUser && review.author.equals(currentUser._id)){ %>
+							<form action="/items/<%= item._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+								<button class="btn btn-sm btn-danger">Delete</button>
+							</form>
+							<% } %>
+						<% } %> 
+					</div>
+					<% } %>
+				<% } else { %>
+					<div class="card shadow p-3 mb-3">
+						<h4 class="card-subtitle mb-2">do not have any review!</h4>
+					</div>
+				<% } %>  
+			</div>
+		</div>
+	</div>
+</div>

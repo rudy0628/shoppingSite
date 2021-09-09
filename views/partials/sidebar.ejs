@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/stylesheets/sidebar.css">
+
+<div class="offcanvas offcanvas-start sidebar-w" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+    <div class="offcanvas-header">
+        <h6 class="offcanvas-title" id="offcanvas">Menu</h6>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body px-0">
+        <ul class="nav flex-column">
+            <% for(let category of categories){ %>
+                <li class="nav-item nav-sidebar-item">
+                    <a class="nav-link nav-sidebar-link" href="/items?qCategory=<%= category %>"><%= category %></a>
+                </li>
+            <% } %>
+        </ul>  
+    </div>
+</div>

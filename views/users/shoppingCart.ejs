@@ -1,0 +1,78 @@
+<% layout('layouts/boilerplate') %>
+<% if(user.shoppingCart && user.shoppingCart.length){ %>
+    <div class="col-md-10 col-12 offset-md-1 mt-4">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">click here to pay</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bill</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column">
+                    <% let total = 0; %> 
+                    <% for(let cart of user.shoppingCart) { %>
+                        <div class="d-flex justify-content-between">
+                            <p><%= cart.item.title %></p>
+                            <p>$<%= cart.item.price %> * <%= cart.amount %></p>
+                        </div>
+                        <% total += (cart.item.price * cart.amount) %> 
+                    <% } %>  
+                    <p class="align-self-end">total: $<%= total %></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <form action="/shoppingCart/<%= user._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-primary">Pay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% for(let cart of user.shoppingCart) {%>
+        <div class="col-md-10 col-12 offset-md-1 my-4">
+            <div class="card shadow">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img class="img-fluid" src="<%= cart.item.images[0].url %>" alt="" />
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><h4><%= cart.item.title %></h4></li>
+                            <li class="list-group-item text-muted"><%= cart.item.category %></li>
+                            <li class="list-group-item fs-5">$<%= cart.item.price %></li>
+                            <li class="list-group-item">
+                                <form action="/shoppingCart/<%= user._id %>/<%= cart._id %>?_method=PATCH" method="POST" id="amount-form" class="my-3">
+                                    <select class="form-select" id="amount" name="amount" aria-label="Default select example" >
+                                        <option selected>qty: <%= cart.amount %></option>
+                                        <% for(let i = 1 ; i <= 20 ; i++){ %>
+                                            <option value="<%= i %>"><%= i %></option>
+                                        <% } %>  
+                                    </select>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">Please enter a amount.</div>
+                                </form>
+                                <form action="/shoppingCart/<%= user._id %>/<%= cart._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-danger">Delete item</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>  
+<% } else {%>
+    <div class="col-10 offset-1">
+        <div class="card shadow mt-4">
+            <div class="card-body">
+                <h2 class="text-center">the shopping cart did not have any items!</h2>
+                <div class="d-grid gap-2">
+                    <a href="/items"class="btn btn-info" >click here to shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

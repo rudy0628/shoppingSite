@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.carousel-item{
+    max-height: 280px;
+}
+
+#index-item{
+    height: 550px;
+}
+
+.shoppingCart-height{
+    height: 85vh;
+}
+
+.index-item-img{
+    max-height: 250px;
+}
+
+.card-img-top{
+    height: 100%;
+}
+
+@media(max-width:1200px){
+    #index-item{
+        height: 520px;
+    }
+}
+
+@media(max-width:992px){
+    .carousel-item{
+        max-height: 300px;
+    }
+    .sidebar-w{
+        width: 75%;
+    }
+}
+
+@media(max-width:768px){
+    #index-item{
+        height: auto;
+    }
+}

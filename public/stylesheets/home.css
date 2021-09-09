@@ -1,0 +1,26 @@
+body{
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80");
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 8rem rgba(0, 0, 0, 0.5);
+}
+
+.cover-container{
+    max-width: 80vw;
+}
+
+.nav-link{
+    color: white;
+    margin-left: 7px;
+}
+
+.nav-link.active{
+    border-bottom: 1px solid white;
+}
+
+.nav-link:hover{
+    color: grey;
+    border-bottom: 1px solid white;
+    transition: all ease-in-out 0.15s;
+}

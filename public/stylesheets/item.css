@@ -17,11 +17,19 @@ body {
 }
 
 .index-item-img{
-    max-height: 250px;
+    height: 250px;
 }
 
 .card-img-top{
     height: 100%;
+}
+
+.card-body{
+    transition: all ease-in-out 0.3s;
+}
+
+.card-body:hover{
+    background-color: #EAEDED;
 }
 
 @media(max-width:1200px){
